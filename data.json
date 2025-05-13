@@ -1,0 +1,17 @@
+{
+    "nome": "Alice",
+    "idade": 28,
+    "altura": 1.65,
+    "casado": false,
+    "filhos": null,
+    "habilidades": ["Python", "C++", "Dança"],
+    "endereco": {
+      "rua": "Rua das Flores",
+      "numero": 123,
+      "bairro": "Centro",
+      "ativo": true
+    },
+    "salarios": [2500.50, 3000, 4000.75],
+    "tem_pets": true,
+    "aniversario": "1995-10-12T00:00:00Z"
+}
