@@ -1,5 +1,6 @@
-import sys
 import ply.lex as lex
+import tkinter as tk
+from tkinter import filedialog, messagebox, scrolledtext
 
 
 # Caracteres JSON
@@ -42,51 +43,35 @@ def t_NUMBER(t):
 
 # Regex para booleanos
 def t_TRUE(t):
-    r'true'
+    r'\btrue\b'
     t.value = True
     return t
 
 def t_FALSE(t):
-    r'false'
+    r'\bfalse\b'
     t.value = False
     return t
 
 # Regex para null
 def t_NULL(t):
-    r'null'
+    r'\bnull\b'
     t.value = None
     return t
 
 def t_error(t):
-    print(f'Caractere ilegal: {t.value[0]} in line {t.lineno} in position {t.lexpos}')
+    errors.append(f'Caractere ilegal: {t.value[0]}')
     t.lexer.skip(1)
 
 
-def main():
-    if len(sys.argv) != 2:
-        print("Usage: python lexical_analyzer.py <data.json> \nEx: "
-            "python lexical_analyzer.py data.json")
-        return
+lexer = lex.lex()
+errors = []
 
-    json_path = sys.argv[1]
-
-    if not json_path.endswith('.json'):
-        print('Please use a json file')
-        return
-
-    with open(json_path, 'r', encoding='utf-8') as f:
-        json_content = f.read()
-
-
-    # Criando o lexer
-    lexer = lex.lex()
-
-    lexer.input(json_content)
-
-    for tok in lexer:
-        if not tok:
-            break
-        print(tok)
-
-if __name__ == "__main__":
-    main()
+def json_analyze(text):
+    lexer.input(text)
+    tokens_found = []
+    global errors
+    errors = []
+    
+    for token in lexer:
+        tokens_found.append(f"{token.type}: {token.value}")
+    return tokens_found, errors
